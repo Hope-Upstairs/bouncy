@@ -58,65 +58,28 @@ EntryPoint:
     
 .drawStrings
 
-    ;old buttons
-        ;ld l, 0
-        ;ld de, $0022
-        ;call DrawString
-        ;ld l, 1
-        ;ld de, $0062
-        ;call DrawString
-        ;ld l, 2
-        ;ld de, $00A2
-        ;call DrawString
-        ;ld l, 3
-        ;ld de, $00E2
-        ;call DrawString
-        ;ld l, 4
-        ;ld de, $0122
-        ;call DrawString
-        ;ld l, 5
-        ;ld de, $0162
-        ;call DrawString
-
     ;buttons
-        ld l, 5
+        ld l, 0
         ld de, $0022
         call DrawString
-        ld l, 2
+        ld l, 1
         ld de, $0062
         call DrawString
 
-    ;ball vars labels
-        ;ld l, 6
-        ;ld de, $00C2
-        ;call DrawString
-        ;ld l, 7
-        ;ld de, $0122
-        ;call DrawString
-        ;ld l, 8
-        ;ld de, $0162
-        ;call DrawString
-        ;ld l, 9
-        ;ld de, $01A2
-        ;call DrawString
-        ;ld l, 10
-        ;ld de, $01E2
-        ;call DrawString
-
     ;reached scanline
-        ld l, 13
+        ld l, 4
         ld de, $0160
         call DrawString
 
     ;balls active
-        ld l, 12
+        ld l, 3
         ld de, $01A2
         call DrawString
 
     ;hope upstairs ballin
-        ;ld l, 11
-        ;ld de, $0200
-        ;call DrawString
+        ld l, 2
+        ld de, $0200
+        call DrawString
 
 .prepareScreen
 

@@ -31,9 +31,4 @@ StringsLookup:
     DW Strings.S3
     DW Strings.S4
 .end
-
-;SECTION "HardLuck sample", ROM0
-
-;HardLuck:
-;    INCBIN "out.raw"
-;.end
+    

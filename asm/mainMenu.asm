@@ -115,6 +115,8 @@ CursorTilePos:
     ld c, a
     add hl, bc
 
+    ret
+
 .end
 
 MenuPerformAction:

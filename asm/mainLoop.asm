@@ -30,13 +30,13 @@ MainLoop:
 .SkipCurMove
 
     ;wait a frame
-        ;ld a, [varFrameCounter]
-        ;inc a
-        ;ld [varFrameCounter], a
-        ;and a, %00000001
-        ;call z, HandleBalls
+        ld a, [varFrameCounter]
+        inc a
+        ld [varFrameCounter], a
+        and a, %00000001
+        call z, HandleBalls
 
-    call HandleBalls
+    ;call HandleBalls
 
     call BallGFXHandler
     call FauxHandler

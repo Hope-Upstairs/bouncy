@@ -262,7 +262,7 @@ BallGFXHandler:
     ;get no of balls, source pos and dest pos
         ld a, [varNoOfBalls]
         ld d, a
-        ld hl, FauxOAM+4
+        ld hl, FauxOAM
         ld bc, BallVars
 
     ;d = no of balls

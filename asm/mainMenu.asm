@@ -30,6 +30,11 @@ MoveCursor:
             ld a, %11000111
             ld [hl], a
 
+    ;hide current cursor tile
+    ld a, [varCurPos]
+    call CursorTilePos
+    ld [hl], 0
+
     ld a, [varCurPos]
     ld b, a
     ld a, [varNoOfOptions]
@@ -84,8 +89,33 @@ MoveCursor:
     ld a, b
     ld [varCurPos], a
 
+    ;set cursor tile
+    call CursorTilePos
+    ld [hl], $25
+    
     ret
 
+.end
+
+CursorTilePos:
+
+    ld hl, $9821
+
+    ;skip if 0
+    cp a, 0
+    ret z
+
+    ;$9821 + $40 * cursor pos
+    sla a
+    sla a
+    swap a
+
+    ;add
+    ld b, 0
+    ld c, a
+    add hl, bc
+
+.end
 
 MenuPerformAction:
 

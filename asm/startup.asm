@@ -59,15 +59,10 @@ EntryPoint:
         call Memclear
 
     ;create cursor
-        ld hl, FauxOAM
-        ld a, $08 + 16 ;y
-        ld [hli], a
-        ld a, $08 + 8 ;x
-        ld [hli], a
-        ld a, 37 ;tile
-        ld [hli], a
-        ld a, 0 ;attributes
-        ld [hli], a
+        ld bc, $9821
+        ld a, $25
+        ld [bc], a
+
     
 .drawStrings
 

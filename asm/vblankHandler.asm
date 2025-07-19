@@ -9,34 +9,10 @@ SECTION "VBlank Interrupt Call", ROM0[$0040]
 
 SECTION "VBlank interrupt handler", ROM0
 
-FauxHandler:
-
-    ;cursor
-        ;get cursor position
-        ld hl, varCurPos
-        ld a, [hl]
-        inc a
-
-        ;multiply by 16 and add offset
-        swap a
-        and a, $F0
-        ld b, $08 ;+ 16*1
-        add a, b
-
-        ;write to vram
-        ld hl, FauxOAM
-        ld [hl], a
-
-    call BallGFXHandler
-
-    ret
-
-.end
-
 VblankHandler:
 
-    ;copy fauxOAM to the OAM through DMA transfer (previously copied to HRAM)
-    call _HRAM
+    ;copy fauxOAM to the OAM through DMA transfer (function previously copied to HRAM)
+        call _HRAM
 
     ;draw no of balls
         ld a, [varNoOfBalls]
@@ -48,10 +24,9 @@ VblankHandler:
         ld hl, $0172
         call DisplayHex
 
-    ei
-    nop
-
-    ;pop registers
+    ;put everything back
+        ei
+        nop
         pop hl
         pop de
         pop bc

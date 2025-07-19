@@ -1,4 +1,4 @@
-DEF noMaxBalls equ $27
+DEF noMaxBalls equ $28
 
 SECTION "Variables", WRAM0
 

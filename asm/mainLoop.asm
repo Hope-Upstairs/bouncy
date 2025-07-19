@@ -39,7 +39,6 @@ MainLoop:
     ;call HandleBalls
 
     call BallGFXHandler
-    call FauxHandler
 
     halt
     nop

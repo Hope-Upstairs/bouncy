@@ -3,15 +3,6 @@ SECTION "MainLoop", ROM0
 MainLoop:
     ;code that doesn't do anything to the VRAM
 
-    ;wait a frame
-        ld a, [varFrameCounter]
-        inc a
-        ld [varFrameCounter], a
-        and a, %00000001
-        call z, HandleBalls
-
-    ;call HandleBalls
-
     call UpdateKeys
 
     ;if A pressed,
@@ -37,6 +28,15 @@ MainLoop:
     call MoveCursor
 
 .SkipCurMove
+
+    ;wait a frame
+        ;ld a, [varFrameCounter]
+        ;inc a
+        ;ld [varFrameCounter], a
+        ;and a, %00000001
+        ;call z, HandleBalls
+
+    call HandleBalls
 
     call BallGFXHandler
     call FauxHandler

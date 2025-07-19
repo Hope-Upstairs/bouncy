@@ -140,6 +140,8 @@ DrawString:
 
     jp .loopStart
 
+.end
+
 ; checks if A is pressed
 ; @ uses register A
 CheckA:
@@ -184,3 +186,15 @@ GetAddressFromLookupTable:
     ; HL is now where the string starts
 
     ret
+
+.end
+
+OAM_transfer_routine:
+    ld a, HIGH(FauxOAM)
+    ldh [$FF46], a  ; start DMA transfer (starts right after instruction)
+    ld a, 40        ; delay for a total of 4×40 = 160 M-cycles
+.wait
+    dec a           ; 1 M-cycle
+    jr nz, .wait    ; 3 M-cycles
+    ret
+.end

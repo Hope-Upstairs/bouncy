@@ -1,15 +1,15 @@
 Chars:
-    CHARMAP " ", $00
-    CHARMAP "0", $01 
-    CHARMAP "1", $02 
-    CHARMAP "2", $03 
-    CHARMAP "3", $04 
-    CHARMAP "4", $05 
-    CHARMAP "5", $06 
-    CHARMAP "6", $07 
-    CHARMAP "7", $08 
-    CHARMAP "8", $09 
-    CHARMAP "9", $0A 
+	CHARMAP " ", $00
+	CHARMAP "0", $01 
+	CHARMAP "1", $02 
+	CHARMAP "2", $03 
+	CHARMAP "3", $04 
+	CHARMAP "4", $05 
+	CHARMAP "5", $06 
+	CHARMAP "6", $07 
+	CHARMAP "7", $08 
+	CHARMAP "8", $09 
+	CHARMAP "9", $0A 
 	CHARMAP "A", $0B 
 	CHARMAP "B", $0C 
 	CHARMAP "C", $0D 

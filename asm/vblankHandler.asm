@@ -5,7 +5,7 @@ SECTION "VBlank Interrupt Call", ROM0[$0040]
     push bc
     push de
     push hl
-    jp NewerHandler
+    jp VblankHandler
 
 SECTION "VBlank interrupt handler", ROM0
 
@@ -33,7 +33,7 @@ FauxHandler:
 
 .end
 
-NewerHandler:
+VblankHandler:
 
     ;copy fauxOAM to the OAM through DMA transfer (previously copied to HRAM)
     call _HRAM
@@ -59,14 +59,4 @@ NewerHandler:
 
     ret
 
-.end
-
-OAM_transfer_routine:
-    ld a, HIGH(FauxOAM)
-    ldh [$FF46], a  ; start DMA transfer (starts right after instruction)
-    ld a, 40        ; delay for a total of 4×40 = 160 M-cycles
-.wait
-    dec a           ; 1 M-cycle
-    jr nz, .wait    ; 3 M-cycles
-    ret
 .end

@@ -31,7 +31,7 @@ Strings:
     DB $FF
 
 .S7
-    DB "V2"
+    DB "V3"
     DB $FF
 
 .end

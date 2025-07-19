@@ -38,6 +38,9 @@ MainLoop:
 
 .SkipCurMove
 
+    call BallGFXHandler
+    call FauxHandler
+
     halt
     nop
     jp MainLoop

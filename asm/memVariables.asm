@@ -1,12 +1,22 @@
-SECTION "Input Variables", WRAM0
-wCurKeys: DB
-wNewKeys: DB
+DEF noMaxBalls equ $27
 
-SECTION "i dunno", WRAM0
-varCurPos: DB
-varNoOfOptions: DB
-varFrameCounter: DB
+SECTION "Variables", WRAM0
 
-SECTION "ball", WRAM0
-varNoOfBalls: DB
-BallVars: DB
+;faux oam
+    FauxOAM: DS $A0
+
+;input
+    wCurKeys: DB
+    wNewKeys: DB
+
+;menu
+    varCurPos: DB
+    varNoOfOptions: DB
+    varFrameCounter: DB
+    varSoundOn: DB
+    varShouldHideLastBall: DB
+
+;balls
+    varNoOfBalls: DB
+    BallVars: DS 4*noMaxBalls
+    

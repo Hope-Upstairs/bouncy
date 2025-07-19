@@ -102,32 +102,82 @@ MenuPerformAction:
 
 MenuActions:
 
-.act2 ;reset
+.spawn ;spawn ball
+
+    jp SpawnBall
+
+.remove ;remove ball
+
+    jp RemoveBall
+
+.reset ;reset
 
     pop bc
     jp $100
 
-.act0 ;palette 1
-.act1 ;palette 2
-.act3 ;play sound
-.act4 ;play sample
+.soundToggle
 
-    ret
-
-.act5 ;spawn ball
-
-    jp SpawnBall
+    jp ToggleSound
 
 .end
 
 MenuLookup:
-    ;DW MenuActions.act0
-    ;DW MenuActions.act1
-    ;DW MenuActions.act2
-    ;DW MenuActions.act3
-    ;DW MenuActions.act4
-    ;DW MenuActions.act5
 
-    DW MenuActions.act5
-    DW MenuActions.act2
+    DW MenuActions.spawn
+    DW MenuActions.remove
+    DW MenuActions.soundToggle
+    DW MenuActions.reset
+
+.end
+
+ToggleSound:
+
+    ;tilemap address
+    ld hl, $98B0
+
+    ;get sound state
+    ld bc, varSoundOn
+
+    ;check if 0
+    ld a, [bc]
+    cp a, 0
+
+    ;if 0, enable
+    jp z, .enable
+
+    ;if not 0, disable
+    jp .disable
+
+.disable
+
+    ;set sound to off
+    ld a, 0
+    ld [bc], a
+
+    ;write "FF"
+    ld a, $10
+    ld [hli], a
+    ld [hli], a
+
+    jp .after
+
+.enable
+
+    ;set sound to on
+    ld a, 1
+    ld [bc], a
+
+    ;write "N"
+    ld a, $18
+    ld [hli], a
+    ;write " "
+    ld a, $00
+    ld [hli], a
+
+    jp .after
+
+.after
+
+    ret
+
 .end

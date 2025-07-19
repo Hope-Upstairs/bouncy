@@ -6,6 +6,19 @@ EntryPoint:
     ld de, 0
     ld hl, 0
 
+    ;clear ram
+        ld hl, $C000
+        ld de, $E000
+:
+        ld a, 0
+        ld [hli], a
+        ld a, h
+        cp a, d
+        jp nz, :-
+        ld a, l
+        cp a, e
+        jp nz, :-
+
 .WaitVBlank ; Do not turn the LCD off outside of VBlank
     ld a, [rLY]
     cp 144
@@ -46,7 +59,7 @@ EntryPoint:
         call Memclear
 
     ;create cursor
-        ld hl, _OAMRAM
+        ld hl, FauxOAM
         ld a, $08 + 16 ;y
         ld [hli], a
         ld a, $08 + 8 ;x
@@ -59,11 +72,21 @@ EntryPoint:
 .drawStrings
 
     ;buttons
+        ;add ball
         ld l, 0
         ld de, $0022
         call DrawString
-        ld l, 1
+        ;remove ball
+        ld l, 5
         ld de, $0062
+        call DrawString
+        ;sound o
+        ld l, 6
+        ld de, $00A2
+        call DrawString
+        ;restart
+        ld l, 1
+        ld de, $00E2
         call DrawString
 
     ;reached scanline
@@ -81,6 +104,11 @@ EntryPoint:
         ld de, $0200
         call DrawString
 
+    ;version number
+        ld l, 7
+        ld de, $0012
+        call DrawString
+
 .prepareScreen
 
     call TurnLCDOn
@@ -96,28 +124,19 @@ EntryPoint:
 
 .SetUpVariables
 
-    ;clear ram
-        ld hl, $C000
-        ld de, $E000
-:
-        ld a, 0
-        ld [hli], a
-        ld a, h
-        cp a, d
-        jp nz, :-
-        ld a, l
-        cp a, e
-        jp nz, :-
-
-    ; Initialize global variables (set em all to 0)
+    ; Initialize global variables
         ld a, $FF
         ld [wCurKeys], a
+        
+        ld a, 1
+        ld [varSoundOn], a
 
         ld a, 0
         ld [wNewKeys], a
         ld [varCurPos], a
         ld [varNoOfBalls], a
         ld [varFrameCounter], a
+        ld [varShouldHideLastBall], a
 
     ;enable vblank interrupt
         ldh [rIF], a
@@ -127,7 +146,7 @@ EntryPoint:
         nop
     
     ;no of options on the menu
-        ld a, 1
+        ld a, 3
         ld [varNoOfOptions], a
 
 .prepareSound
@@ -148,5 +167,23 @@ EntryPoint:
     ld hl, rAUDENA
     ld a, %10000000
     ld [hl], a
+
+.copyDMAthingy
+
+    ld hl, _HRAM
+    ld bc, OAM_transfer_routine
+    ld d, (OAM_transfer_routine.end - OAM_transfer_routine)
+
+.dmaLoopStart
+
+    ld a, [bc]
+    ld [hli], a
+    inc bc
+    dec d
+    jp nz, .dmaLoopStart
+
+.dmaLoopEnd
+
+.finish
 
     jp MainLoop

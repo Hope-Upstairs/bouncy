@@ -1,47 +1,69 @@
 SECTION "BallCode", ROM0
 
 SpawnBall:
-    ld a, [varNoOfBalls]
-    ld e, a
 
-    ;check if 20 balls already
-    cp a, 20
-    ;cp a, 1
-    ret z
+    ;get no of balls
+        ld a, [varNoOfBalls]
+        ld bc, 0
+        ld hl, BallVars
 
-    ld hl, BallVars
-    add a, a
-    add a, a
-    ld d, a
-    ld a, l
-    add a, d
-    ld l, a
+    ;return if max balls already reached
+        cp a, noMaxBalls
+        ret z
+
+    ;go to the current ball's vars (4 vars per ball so multiply by 4)
+        sla a
+        sla a
+        ld c, a
+        add hl, bc
+
     ;hl is now the proper address for the ball vars
 
-    ;ball y
-    ld bc, rDIV
-    ld a, [bc]
-    and a, %11110000
-    ;ld a, 100
-    ld [hli], a
-    ;ball x
-    ld bc, rDIV
-    ld a, [bc]
-    swap a
-    ld [hli], a
-    ;ball yspd
-    ld a, -1
-    ld [hli], a
-    ;ball xspd
-    ld bc, rDIV
-    ld a, [bc]
-    and a, %00000011
-    ld [hli], a
+    ;set vars
+        ;ball y
+            ld a, [rDIV]
+            ld [hli], a
 
-    ld a, e
-    inc a
-    ld [varNoOfBalls], a
+        ;ball x
+            ld a, [rDIV]
+            swap a
+            ld [hli], a
+
+        ;ball yspd
+            ld a, -1
+            ld [hli], a
+        
+        ;ball xspd
+            ld a, [rDIV]
+            and a, %00000011
+            ld [hli], a
+
+    ;increase no of balls
+        ld hl, varNoOfBalls
+        inc [hl]
+
     ret
+    
+.end
+
+RemoveBall:
+
+    ;get no of balls
+        ld a, [varNoOfBalls]
+        cp a, 0
+        ret z   ;return if no balls
+        ;ld bc, 0
+        ;ld hl, BallVars
+
+    ;decrease no of balls
+        ld hl, varNoOfBalls
+        dec [hl]
+
+        ld a, 1
+        ld [varShouldHideLastBall], a
+
+    ret
+
 .end
 
 
@@ -56,7 +78,7 @@ HandleBalls:
         ld hl, BallVars
 
     ;d = no of balls
-    ;hl = oam address
+    ;hl = ball var address
     ;bc = ball vars
 
 .checkIfAnyBalls
@@ -240,7 +262,7 @@ BallGFXHandler:
     ;get no of balls, source pos and dest pos
         ld a, [varNoOfBalls]
         ld d, a
-        ld hl, _OAMRAM+4
+        ld hl, FauxOAM+4
         ld bc, BallVars
 
     ;d = no of balls
@@ -253,7 +275,7 @@ BallGFXHandler:
         ld a, d
         cp a, 0
     ;if not, exit loop
-        ret z
+        jp z, .hideLastBall
 
 .copyABall
     ;copy y
@@ -280,11 +302,30 @@ BallGFXHandler:
         dec d
         jp .checkAnyBallsLeft
 
+.hideLastBall:
+
+    ld a, [varShouldHideLastBall]
+    cp a, 0
+    ret z
+
+    ld a, 0
+    ld [hl], a
+    ld [varShouldHideLastBall], a
+    ret
+
 .end
 
 MakeBumpSound:
 
-    push  hl
+    push hl
+    push bc
+
+    ;get sound state
+    ld bc, varSoundOn
+    ;check if 0
+    ld a, [bc]
+    cp a, 0
+    jp z, .skip
 
     ;length timer
     ld hl, rAUD4LEN
@@ -310,7 +351,8 @@ MakeBumpSound:
     ld a, %11000000
     ld [hl], a
 
-
+.skip
+    pop bc
     pop hl
     ret
 

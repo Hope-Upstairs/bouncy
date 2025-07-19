@@ -22,6 +22,18 @@ Strings:
     DB "REACHED SCANLINE H"
     DB $FF
 
+.S5
+    DB "REMOVE BALL"
+    DB $FF
+
+.S6
+    DB "BOUNCE SOUND ON "
+    DB $FF
+
+.S7
+    DB "V2"
+    DB $FF
+
 .end
 
 StringsLookup:
@@ -30,5 +42,8 @@ StringsLookup:
     DW Strings.S2
     DW Strings.S3
     DW Strings.S4
+    DW Strings.S5
+    DW Strings.S6
+    DW Strings.S7
 .end
     

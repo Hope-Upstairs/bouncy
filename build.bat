@@ -2,7 +2,7 @@
 set i=main
 mkdir temp
 cd asm
-rgbasm -L -o "../temp/%i%.o" "%i%.asm"
+rgbasm -o "../temp/%i%.o" "%i%.asm"
 cd ..
 rgblink -o   "%i%.gb" "temp/%i%.o"
 rgbfix -v -p 0xFF "%i%.gb"

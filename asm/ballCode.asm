@@ -120,12 +120,6 @@ HandleBalls:
 
         jp z, .groundBallAndBounce
         jp c, .groundBallAndBounce
-
-    ;test stuff: press b to bounce (DELETE AFTER)
-        ld a, [wNewKeys]
-        and a, PADF_B
-        ld a, c
-        jp nz, .groundBallAndBounce
         
     jp .applyBallY
 

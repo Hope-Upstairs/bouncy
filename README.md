@@ -1,4 +1,4 @@
-# Bouncing balls in Game Boy assembly!
+# Bouncy marbles in Game Boy assembly!
 
 A very simple demo.
 

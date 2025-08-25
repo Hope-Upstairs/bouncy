@@ -2,6 +2,8 @@
 
 A very simple demo.
 
+![screenshot of the demo, showing the marbles on top of the menu](https://github.com/Hope-Upstairs/bouncy/blob/main/bouncy_v3_000.png)
+
 Tested by me and confirmed to work on emulators (Emulicious, Mesen), Game Boy (DMG), Super Game Boy (SGB) and Game Boy Advance (AGB).
 
 # Building
